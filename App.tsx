@@ -1,20 +1,46 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import StackNavigator from './Navigators/StackNavigator';
+import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
+import { useCallback, useEffect } from 'react';
+import AuthStack from './Navigators/AuthStack';
+import TabNavigator from './Navigators/TabNavigator';
+import { Text } from 'react-native';
+
+
+
+
+SplashScreen.preventAutoHideAsync();
+
 
 export default function App() {
+
+  
+	const [fontsLoaded] = useFonts({
+		'Regular': require('./assets/fonts/Nunito-Regular.ttf'),
+		'Medium': require('./assets/fonts/Nunito-Medium.ttf'),
+		'SemiBold': require('./assets/fonts/Nunito-SemiBold.ttf'),
+		'Bold': require('./assets/fonts/Nunito-Bold.ttf'),
+		'ExtraBold': require('./assets/fonts/Nunito-ExtraBold.ttf'),
+	});
+
+  	const onLayoutRootView = useCallback(async () => {
+		if (fontsLoaded) await SplashScreen.hideAsync();
+  	}, [fontsLoaded]);
+
+	useEffect(() => {
+		onLayoutRootView();
+	});
+
+	if (!fontsLoaded) return null;
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+		<NavigationContainer>
+			<StatusBar style='dark' />
+      {/* <AuthStack /> */}
+        <TabNavigator />
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
