@@ -1,7 +1,8 @@
 export const baseURL = 'https://jewel.cmsandbox.com.ng'
 export const RegisterAPI = 'https://jewel.cmsandbox.com.ng/api/vendor/register'
 export const LoginAPI = 'https://jewel.cmsandbox.com.ng/api/vendor/login'
-// export const MenusAPI = 'https://jewel.cmsandbox.com.ng/api/buyer/menu/all'
+export const VendorMenusAPI = 'https://jewel.cmsandbox.com.ng/api/vendor/menu' // -> {id}
+export const VendorOrdersAPI = 'https://jewel.cmsandbox.com.ng/api/vendor/orders'
 // export const VendorsAPI = 'https://jewel.cmsandbox.com.ng/api/vendors/all'
 // export const CreateOrderAPI = 'https://jewel.cmsandbox.com.ng/api/buyer/order/new'
 // export const GetOrderAPI = 'https://jewel.cmsandbox.com.ng/api/buyer/orders'
