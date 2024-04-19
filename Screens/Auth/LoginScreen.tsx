@@ -62,11 +62,15 @@ const LoginScreen = ({ navigation }: any) => {
       			
 			const userResponse = {
         id: resp.user.id,
-        username: resp.user.username,
-        phone_number: resp.user.phone_number,
+        name: resp.user.name,
 				email: resp.user.email,
-				token: resp.token,
 				address: resp.user.address,
+				opening_time: resp.user.opening_time,
+				closing_time: resp.user.closing_time,
+				description: resp.user.description,
+        phone_number: resp.user.phone_number,
+        display_pic: resp.user.display_pic,
+				token: resp.token,
 
 			}
 			
