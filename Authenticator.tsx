@@ -24,7 +24,7 @@ const Authenticator = () => {
 		  	console.log(err);
 		})
 	}, []);
-	console.log("userrbbbb: ", user.length)
+	console.log("userrbbbb: ", user?.length)
 
 	if (loading) {
 		return (
@@ -32,7 +32,7 @@ const Authenticator = () => {
 				<ActivityIndicator size="large" color={"#064929"} />
 			</View>
 		)
-	} else if (!user || user.length == 0) {
+	} else if (!user || user?.length == 0) {
 		return <AuthStack />
 	} else {
 		return <StackNavigator />
