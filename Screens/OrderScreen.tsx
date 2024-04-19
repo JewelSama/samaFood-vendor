@@ -1,9 +1,44 @@
-import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Order from '../Components/Order'
+import { AppContext } from '../Providers/AppProvider'
+import { VendorOrdersAPI } from '../endpoints'
 
-const OrderScreen = () => {
+const OrderScreen = ({ navigation }: any) => {
+  const { user } = useContext<any>(AppContext)
+  const [ loading, setLoading ] = useState(false)
+  const [ orders, setOrders ] = useState([])
+
+  const getMenu = async() => {
+    setLoading(true)
+    await fetch(`${VendorOrdersAPI}`, {
+      method: 'GET',
+      headers: new Headers({
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${user?.token}`
+      })
+    })
+    .then(res => res.json())
+    .then(resp => {
+      setLoading(false)
+      if(resp?.errors){
+        return alert(resp?.message)
+      }
+      console.log(resp)
+      setOrders(resp?.data.reverse()); 
+    })
+    .catch(err => {
+      setLoading(false)
+      console.log(err)
+      alert('Something went wrong')
+    })
+  }
+
+  useEffect(() => {
+    getMenu()
+  }, [])
+
   return (
     <SafeAreaView className='h-full bg-white' style={{paddingHorizontal: 6}}>
     <View className='h-full'>
@@ -11,10 +46,31 @@ const OrderScreen = () => {
             <Text className="text-xl" style={{fontFamily: 'Bold'}}>Your Orders</Text>
         </View>
 
+
         <ScrollView className='h-full mt-4' showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 100}}>
-            <>
-                <Order />
-            </>
+        {
+                !loading ? (
+                    <View>
+                        {
+                            orders && orders.map((order: any, index: any) => (
+                                // @ts-ignore
+                                <Order order={order} key={index} />
+                            ))
+
+                        }{
+                          orders.length < 1 && (
+                            <View className='h-20 justify-center items-center'>
+                              <Text className='text-lg' style={{fontFamily: 'Regular'}}>You have no menu</Text>
+                            </View>
+                          )
+                        }
+                    </View>
+                ) : (
+                    <View className='w-full'>
+                      <ActivityIndicator color="#064929" size={'small'} />
+                    </View>
+                )
+            }
         </ScrollView>
     </View>
     </SafeAreaView>
