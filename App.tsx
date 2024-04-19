@@ -7,6 +7,8 @@ import { useCallback, useEffect } from 'react';
 import AuthStack from './Navigators/AuthStack';
 import TabNavigator from './Navigators/TabNavigator';
 import { Text } from 'react-native';
+import { AppProvider } from './Providers/AppProvider';
+import Authenticator from './Authenticator';
 
 
 
@@ -37,10 +39,11 @@ export default function App() {
 
   return (
 		<NavigationContainer>
-			<StatusBar style='dark' />
-      {/* <AuthStack /> */}
-        <TabNavigator />
-    </NavigationContainer>
+			<AppProvider>
+				<StatusBar style='dark' />
+			<Authenticator />
+		  	</AppProvider>
+    	</NavigationContainer>
   );
 }
 
