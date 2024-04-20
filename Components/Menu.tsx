@@ -21,7 +21,7 @@ const Menu = ({ menu }: any) => {
             </View>
         </View>
         <View className='items-end mt-1 mr-1'>
-            <TouchableOpacity className='px-1'>
+            <TouchableOpacity className='px-1' onPress={() => alert('Contact customer support to delete menus')}>
                 <Text className='text-red-600' style={{fontFamily: 'Bold'}}>Delete</Text>
             </TouchableOpacity>
         </View>
