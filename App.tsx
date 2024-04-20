@@ -38,12 +38,12 @@ export default function App() {
 	if (!fontsLoaded) return null;
 
   return (
-		<NavigationContainer>
 			<AppProvider>
+		<NavigationContainer>
 				<StatusBar style='dark' />
 			<Authenticator />
-		  	</AppProvider>
     	</NavigationContainer>
+		  	</AppProvider>
   );
 }
 
