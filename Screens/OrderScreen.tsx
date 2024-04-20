@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, ActivityIndicator } from 'react-native'
+import { View, Text, ScrollView, ActivityIndicator, RefreshControl } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Order from '../Components/Order'
@@ -6,9 +6,10 @@ import { AppContext } from '../Providers/AppProvider'
 import { VendorOrdersAPI } from '../endpoints'
 
 const OrderScreen = ({ navigation }: any) => {
-  const { user } = useContext<any>(AppContext)
+  const { user, orders, setOrders } = useContext<any>(AppContext)
   const [ loading, setLoading ] = useState(false)
-  const [ orders, setOrders ] = useState([])
+  const [refreshing, setRefreshing] = React.useState(false);
+
 
   const getMenu = async() => {
     setLoading(true)
@@ -35,6 +36,14 @@ const OrderScreen = ({ navigation }: any) => {
     })
   }
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      getMenu()
+    }, 2000);
+  }, []);
+
   useEffect(() => {
     getMenu()
   }, [])
@@ -47,7 +56,8 @@ const OrderScreen = ({ navigation }: any) => {
         </View>
 
 
-        <ScrollView className='h-full mt-4' showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 100}}>
+        <ScrollView className='h-full mt-4' showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 100}} refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         {
                 !loading ? (
                     <View>
@@ -58,7 +68,7 @@ const OrderScreen = ({ navigation }: any) => {
                             ))
 
                         }{
-                          orders.length < 1 && (
+                          orders?.length < 1 && (
                             <View className='h-20 justify-center items-center'>
                               <Text className='text-lg' style={{fontFamily: 'Regular'}}>You have no menu</Text>
                             </View>
