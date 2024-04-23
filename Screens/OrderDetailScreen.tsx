@@ -51,7 +51,7 @@ const OrderDetailScreen = ({ navigation, route }: any) => {
           if(resp?.errors){
             return alert(resp?.message)
           }
-          console.log(resp?.data)
+          console.log("resp ", resp)
                 
           navigation.goBack()
             alert("Order accepted.")
@@ -79,7 +79,7 @@ const OrderDetailScreen = ({ navigation, route }: any) => {
         .then(res => res.json())
         .then(resp => {
           setredLoading(false)
-          console.log(resp)
+          console.log("resp", resp)
           if(resp?.errors){
             return alert(resp?.message)
           }
